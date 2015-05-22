@@ -20,5 +20,11 @@ namespace BlogTest.BlogUserControl
                 this.liLogin.Visible = false;
             }
         }
+
+        protected void btnLogOut_Click(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Response.RedirectPermanent("/Account/Login.aspx");
+        }
     }
 }

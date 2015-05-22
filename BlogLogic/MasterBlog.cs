@@ -10,7 +10,7 @@ namespace BlogLogic
 {
     public class MasterBlog
     {
-        private IBlogOperation _blogOperation;
+        private BlogOperations _blogOperation;
         private string _owner;
 
         public MasterBlog(string blogowner)
@@ -34,14 +34,19 @@ namespace BlogLogic
             return _blogOperation.ReviewPost(postid);
         }
 
-        public void UpdatePost(int postid, string content)
+        public void UpdatePost(int postid, Post newpost)
         {
-            _blogOperation.UpdatePost(postid, content);
+            _blogOperation.UpdatePost(postid, newpost);
         }
 
         public void DeletePost(int postid)
         {
             _blogOperation.DeletePost(postid);
+        }
+
+        public static bool ValidateUser(string username)
+        {
+            return BlogOperations.ValidateUser(username);
         }
     }
 }

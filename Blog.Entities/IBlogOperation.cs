@@ -11,7 +11,7 @@ namespace Blog.Entities
         void AddPost(IPost post);
         IList<IPost> ReviewPosts();
         IPost ReviewPost(int postid);
-        void UpdatePost(int postid, string content);
+        void UpdatePost(int postid, Post newpost);
         void DeletePost(int postid);
     }
 }

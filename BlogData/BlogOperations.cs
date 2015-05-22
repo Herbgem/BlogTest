@@ -11,21 +11,37 @@ namespace BlogData
 {
     public class BlogOperations : IBlogOperation
     {
-        private BlogDb _blogDb;
+        private static BlogDb _blogDb = new BlogDb();
         private DataConnection _dataConnection;
         private string _blogName;
 
         public BlogOperations(string blogowner)
         {
+            _blogName = blogowner;
             DataConnection tempconnection = new DataConnection();
-            tempconnection.Command.CommandText = string.Format("select {0} from {1} where {2} = {3}", _blogDb.Blogs.BlogIdColumn.ColumnName, _blogDb.Blogs.TableName, _blogDb.Blogs.BlogOwnerColumn.ColumnName, blogowner);
+            tempconnection.Command.CommandText = string.Format("select {0} from {1} where {2} = '{3}'", _blogDb.Blogs.BlogIdColumn.ColumnName, _blogDb.Blogs.TableName, _blogDb.Blogs.BlogOwnerColumn.ColumnName, blogowner);
             tempconnection.Command.Connection.Open();
             int blogid = Convert.ToInt32(tempconnection.Command.ExecuteScalar());
             tempconnection.Command.Dispose();
             tempconnection.Command.Connection.Close();
 
-            _dataConnection = new DataConnection(string.Format("select * from {0} where {1} = {2}", _blogDb.Posts.TableName, _blogDb.Posts.BlogIdColumn.ColumnName, blogid));
+            _dataConnection = new DataConnection(string.Format("select * from {0} where {1} = '{2}'", _blogDb.Posts.TableName, _blogDb.Posts.BlogIdColumn.ColumnName, blogid));
             _dataConnection.Adapter.Fill(_blogDb, _blogDb.Posts.TableName);
+        }
+
+        public static bool ValidateUser(string blogowner)
+        {
+            DataConnection tempconnection = new DataConnection();
+            tempconnection.Command.CommandText = string.Format("select {0} from {1} where {2} = '{3}'", _blogDb.Blogs.BlogIdColumn.ColumnName, _blogDb.Blogs.TableName, _blogDb.Blogs.BlogOwnerColumn.ColumnName, blogowner);
+            tempconnection.Command.Connection.Open();
+            object objblogid = tempconnection.Command.ExecuteScalar();
+            tempconnection.Command.Dispose();
+            tempconnection.Command.Connection.Close();
+
+            if (objblogid == null)
+                return false;
+            else
+                return true;
         }
 
         public void AddPost(IPost post)
@@ -40,6 +56,7 @@ namespace BlogData
             List<IPost> posts = (from singlepost in _blogDb.Posts.Rows.Cast<BlogDb.PostsRow>()
                                 select new Post
                                 {
+                                    Id = singlepost.Id,
                                     PostId = singlepost.PostId,
                                     BlogId = singlepost.BlogId,
                                     PostAuthor = singlepost.PostAuthor,
@@ -57,6 +74,7 @@ namespace BlogData
             BlogDb.PostsRow post = _blogDb.Posts.FindById(postid);
             return new Post
             {
+                Id = post.Id,
                 PostId = post.PostId,
                 BlogId = post.BlogId,
                 PostAuthor = post.PostAuthor,
@@ -68,11 +86,13 @@ namespace BlogData
             };
         }
 
-        public void UpdatePost(int postid, string content)
+        public void UpdatePost(int postid, Post newpost)
         {
             BlogDb.PostsRow post = _blogDb.Posts.FindById(postid);
-            post.PostContent = content;
-            post.PostCreatedTime = DateTime.Now;
+            post.PostTitle = newpost.PostTitle;
+            post.PostContent = newpost.PostContent;
+            post.PostDescription = newpost.PostDescription;
+            post.PostModifiedTime = DateTime.Now;
             _dataConnection.Adapter.Update(_blogDb, _blogDb.Posts.TableName);
         }
 

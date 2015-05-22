@@ -8,6 +8,11 @@ namespace Blog.Entities
 {
     public class Post : IPost
     {
+        public int Id
+        {
+            get;
+            set;
+        }
         public int PostId
         {
             get;

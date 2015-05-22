@@ -10,8 +10,8 @@
     <nav class="nav navbar-default">
         <div class="container-fluid">
             <ul class="nav navbar-nav navbar-right">
-                <li id="liLogin" runat="server"><asp:HyperLink runat="server" Text="Login" /></li>
-                <li id="liLogout" runat="server"><asp:HyperLink runat="server" Text="Logout" /></li>
+                <li id="liLogin" runat="server"><asp:HyperLink NavigateUrl="~/Account/Login.aspx" runat="server" Text="Login" /></li>
+                <li id="liLogout" runat="server"><asp:LinkButton ID="btnLogOut" runat="server" Text="Logout" OnClick="btnLogOut_Click"/></li>
             </ul>
         </div>
     </nav>

@@ -8,6 +8,7 @@ namespace Blog.Entities
 {
     public interface IPost
     {
+        int Id { get; set; }
          int PostId { get; set; }
          string PostTitle { get; set; }
          string PostDescription { get; set; }
