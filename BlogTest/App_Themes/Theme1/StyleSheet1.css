@@ -41,3 +41,18 @@ div{
     position:relative;
     margin:0 auto;
 }
+
+.LeftSidebar {
+    position:relative;
+    float:left;
+    left:100px;
+    top:30px;
+}
+
+.btnSearch {
+    top:15px;
+}
+
+.lblTime {
+    top:20px;
+}

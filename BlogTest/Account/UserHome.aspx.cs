@@ -55,6 +55,19 @@ namespace BlogTest
             Response.RedirectPermanent("/Account/AddNewPage.aspx");
         }
 
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            IList<IPost> posts = _masterBlog.ReviewPosts();
+            posts = posts.Where(post => post.PostTitle.ToLower().Contains(txtSearch.Text.ToLower())).ToList();
+            BlogsGrid.DataSource = posts;
+            BlogsGrid.DataBind();
+        }
+
+        protected void Timer_Tick(object sender, EventArgs e)
+        {
+            lblTime.Text = DateTime.Now.ToLongTimeString();
+        }
+
 
     }
 }

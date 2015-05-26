@@ -2,6 +2,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div id="LeftSidebar" class="LeftSidebar">
+        <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
+        <asp:Button ID="btnSearch" runat="server" CssClass="CenterControl btnSearch" Text="Search" OnClick="btnSearch_Click" />
+        <asp:Timer ID="Timer" runat="server" Interval="1000" OnTick="Timer_Tick"/>
+        <asp:UpdatePanel ID="pnlUpdateTime" runat="server">
+            <ContentTemplate>
+                <asp:Label ID="lblTime" CssClass="CenterControl lblTime" runat="server" />
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="Timer" EventName="Tick" />
+            </Triggers>
+        </asp:UpdatePanel>
+    </div>
     <div class="CenterControl">
         <asp:DataList ID="BlogsGrid" runat="server" RepeatColumns="1" RepeatDirection="Vertical" DataKeyField="Id"
             OnItemCommand="BlogsGrid_ItemCommand1">
