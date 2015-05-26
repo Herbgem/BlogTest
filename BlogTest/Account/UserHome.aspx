@@ -32,7 +32,11 @@
                         <h2>Blogs Info</h2>
                         <hr />
                         <hr />
+                        
                     </FooterTemplate>
                 </asp:DataList>
+                <asp:Button ID="btnAddNew" runat="server" Text="Add New" OnClick="btnAddNew_Click"/>
+        
+
     </div>
 </asp:Content>

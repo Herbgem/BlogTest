@@ -10,7 +10,7 @@ namespace BlogData
 {
     public class DataConnection
     {
-        private string _connectionString = @"server=morgan--dk\morgan_l; initial catalog = BlogDb; integrated security = true";
+        private string _connectionString = @"server=morgan_lee; initial catalog = BlogDb; integrated security = true";
         private SqlDataAdapter _adapter;
         private SqlCommandBuilder _commandBuilder;
         private string _selectQuery;

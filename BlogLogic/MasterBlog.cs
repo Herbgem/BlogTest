@@ -44,7 +44,7 @@ namespace BlogLogic
             _blogOperation.DeletePost(postid);
         }
 
-        public static bool ValidateUser(string username)
+        public static int ValidateUser(string username)
         {
             return BlogOperations.ValidateUser(username);
         }

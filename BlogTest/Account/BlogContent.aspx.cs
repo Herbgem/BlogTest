@@ -24,8 +24,7 @@ namespace BlogTest
 
         private void LoadPosts()
         {
-            _oldPost = _masterBlog.ReviewPost(Convert.ToInt32(Session["PostId"]));
-            BlogContent.DataSource = new List<IPost> {_masterBlog.ReviewPost(Convert.ToInt32(Session["PostId"]))};
+            BlogContent.DataSource = _masterBlog.ReviewPosts();
             BlogContent.DataBind();
         }
 
@@ -37,6 +36,7 @@ namespace BlogTest
         protected void BlogContent_ItemDeleting(object sender, FormViewDeleteEventArgs e)
         {
             _masterBlog.DeletePost(Convert.ToInt32(Session["PostId"]));
+            LoadPosts();
             Response.RedirectPermanent("/Account/UserHome.aspx");
         }
 
@@ -53,11 +53,12 @@ namespace BlogTest
 
         protected void btnSummit_Click(object sender, EventArgs e)
         {
+            _oldPost = _masterBlog.ReviewPost(Convert.ToInt32(Session["PostId"]));
+
             string newTitle = (BlogContent.FindControl("editPostTitle") as TextBox).Text;
             string newDescription = (BlogContent.FindControl("editPostDescription") as TextBox).Text;
             string newContent = (BlogContent.FindControl("editPostContent") as TextBox).Text;
-            LoadPosts();
-            _masterBlog.UpdatePost(Convert.ToInt32(Session["PostId"]), new Post(newTitle, newDescription, newContent, _oldPost.PostAuthor, _oldPost.PostCreated, DateTime.Now));
+            _masterBlog.UpdatePost(Convert.ToInt32(Session["PostId"]), new Post(newTitle, newDescription, newContent, _oldPost.PostAuthor, _oldPost.PostCreated, DateTime.Now, Convert.ToInt32(Session["BlogId"])));
             Response.RedirectPermanent("/Account/UserHome.aspx");
         }
     }

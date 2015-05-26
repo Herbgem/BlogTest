@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BlogLogic;
+using Blog.Entities;
 
 namespace BlogTest
 {
@@ -14,16 +15,15 @@ namespace BlogTest
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                _masterBlog = new MasterBlog(Session["UserName"].ToString());
+            _masterBlog = new MasterBlog(Session["UserName"].ToString());
                 LoadPosts();
-            }
         }
 
         private void LoadPosts()
         {
-            BlogsGrid.DataSource = _masterBlog.ReviewPosts();
+            //BlogsGrid.DataSource = null;
+            IList<IPost> posts = _masterBlog.ReviewPosts();
+            BlogsGrid.DataSource = posts;
             BlogsGrid.DataBind();
         }
 
@@ -43,8 +43,18 @@ namespace BlogTest
 
         protected void BlogsGrid_ItemCommand1(object source, DataListCommandEventArgs e)
         {
-            Session["PostId"] = Convert.ToInt32(BlogsGrid.DataKeys[e.Item.ItemIndex]);
-            Response.RedirectPermanent("/Account/BlogContent.aspx");
+            if (e.CommandName == "select")
+            {
+                Session["PostId"] = Convert.ToInt32(BlogsGrid.DataKeys[e.Item.ItemIndex]);
+                Response.RedirectPermanent("/Account/BlogContent.aspx");
+            }
         }
+
+        protected void btnAddNew_Click(object sender, EventArgs e)
+        {
+            Response.RedirectPermanent("/Account/AddNewPage.aspx");
+        }
+
+
     }
 }

@@ -26,10 +26,14 @@ namespace BlogData
             tempconnection.Command.Connection.Close();
 
             _dataConnection = new DataConnection(string.Format("select * from {0} where {1} = '{2}'", _blogDb.Posts.TableName, _blogDb.Posts.BlogIdColumn.ColumnName, blogid));
+            DataConnection tmpconnection = new DataConnection(string.Format("select * from {0}", _blogDb.Blogs.TableName));
+            tmpconnection.Adapter.Fill(_blogDb, _blogDb.Blogs.TableName);
+            _blogDb.Posts.Clear();
             _dataConnection.Adapter.Fill(_blogDb, _blogDb.Posts.TableName);
+
         }
 
-        public static bool ValidateUser(string blogowner)
+        public static int ValidateUser(string blogowner)
         {
             DataConnection tempconnection = new DataConnection();
             tempconnection.Command.CommandText = string.Format("select {0} from {1} where {2} = '{3}'", _blogDb.Blogs.BlogIdColumn.ColumnName, _blogDb.Blogs.TableName, _blogDb.Blogs.BlogOwnerColumn.ColumnName, blogowner);
@@ -38,14 +42,15 @@ namespace BlogData
             tempconnection.Command.Dispose();
             tempconnection.Command.Connection.Close();
 
-            if (objblogid == null)
-                return false;
+            if (objblogid != null)
+                return Convert.ToInt32(objblogid);
             else
-                return true;
+                return -1;
         }
 
         public void AddPost(IPost post)
         {
+            var blog = _blogDb.Blogs.FindByBlogId(post.BlogId);
             _blogDb.Posts.AddPostsRow(post.PostId, post.PostTitle, post.PostDescription, post.PostContent, post.PostAuthor, post.PostCreated, post.PostModified, _blogDb.Blogs.FindByBlogId(post.BlogId));
             _dataConnection.Adapter.Update(_blogDb, _blogDb.Posts.TableName);
         }

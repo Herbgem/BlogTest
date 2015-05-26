@@ -61,7 +61,7 @@ namespace Blog.Entities
             set;
         }
 
-        public Post(string posttitle, string description, string content, string author, DateTime createdtime, DateTime modifiedtime)
+        public Post(string posttitle, string description, string content, string author, DateTime createdtime, DateTime modifiedtime, int blogid)
         {
             this.PostTitle = posttitle;
             this.PostDescription = description;
@@ -69,6 +69,7 @@ namespace Blog.Entities
             this.PostAuthor = author;
             this.PostCreated = createdtime;
             this.PostModified = modifiedtime;
+            this.BlogId = blogid;
         }
 
         public Post() { }

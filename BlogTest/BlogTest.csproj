@@ -61,6 +61,7 @@
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\UserHome.aspx" />
     <Content Include="Account\BlogContent.aspx" />
+    <Content Include="Account\AddNewPage.aspx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -142,6 +143,13 @@
     </Compile>
     <Compile Include="Account\BlogContent.aspx.designer.cs">
       <DependentUpon>BlogContent.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\AddNewPage.aspx.cs">
+      <DependentUpon>AddNewPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\AddNewPage.aspx.designer.cs">
+      <DependentUpon>AddNewPage.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

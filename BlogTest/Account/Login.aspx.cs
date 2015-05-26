@@ -17,9 +17,11 @@ namespace BlogTest
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            if (MasterBlog.ValidateUser(txtUserName.Text))
+            int blogId = MasterBlog.ValidateUser(txtUserName.Text);
+            if (blogId > 0)
             {
                 Session["UserName"] = txtUserName.Text;
+                Session["BlogId"] = blogId;
                 Response.RedirectPermanent(@"\Account\UserHome.aspx");
             }
             else
